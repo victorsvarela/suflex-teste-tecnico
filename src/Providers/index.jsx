@@ -1,9 +1,12 @@
+import { CharacterProvider } from "./Character";
 import { CharactersProvider } from "./Characters";
 
 const Providers = ({ children }) => {
   return (
     <>
-      <CharactersProvider>{children}</CharactersProvider>
+      <CharactersProvider>
+        <CharacterProvider>{children}</CharacterProvider>
+      </CharactersProvider>
     </>
   );
 };

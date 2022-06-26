@@ -1,92 +1,77 @@
 import { useContext, useEffect, useState } from "react";
-import { CharactersContext } from "../../Providers/Characters";
 
+import { CharactersContext } from "../../Providers/Characters";
 import * as Styles from "./styles";
 import CardCharacters from "../CardCharacters";
 
-import RickAndMortyLogo from "./../../assets/images/Rick-And-Morty-Logo.png";
+import Paginate from "../Paginate";
+import Navbar from "../Navbar";
+import LoadingResponseApi from "../LoadingResposeApi";
+import { useHistory } from "react-router-dom";
 
 const SectionHomePage = () => {
+  const useContextCharacters = useContext(CharactersContext);
+  const history = useHistory();
+
   const [changeInputName, setChangeInputName] = useState("");
   const [selectCurrentSpecie, setSelectCurrentSpecie] = useState("");
 
-  const {
-    loading,
-    error,
-    data,
-    getCharacterInfo,
-    newFiltered,
-    dataF,
-    loading1,
-    error1,
-  } = useContext(CharactersContext);
+  const [pageOffset, setPageOffset] = useState(1);
+  const [pageCount, setPageCount] = useState();
 
   useEffect(() => {
-    newFiltered({
+    useContextCharacters.newFiltered({
       variables: {
+        page: pageOffset,
         species: selectCurrentSpecie,
         name: changeInputName,
       },
     });
-  }, []);
+  }, [, pageOffset]);
+
+  useEffect(() => {
+    setPageCount(useContextCharacters.data?.characters.info.pages);
+  }, [useContextCharacters.data?.characters.info.pages]);
 
   return (
     <Styles.WrapperContent>
-      <Styles.ContainerNavigation>
-        <div>
-          <img src={RickAndMortyLogo} alt="vsf" />
-        </div>
-        <div>
-          <input
-            value={changeInputName}
-            onChange={(value) => setChangeInputName(value.target.value)}
-          />
-        </div>
-        <div>
-          <select
-            name="select_specie"
-            onChange={(event) => {
-              setSelectCurrentSpecie(event.target.value);
-            }}
-          >
-            <option value="">Todos</option>
-            <option value="human">Humano</option>
-            <option value="alien">Alien</option>
-          </select>
-        </div>
-        <div>
-          <button
-            onClick={() => {
-              newFiltered({
-                variables: {
-                  species: selectCurrentSpecie,
-                  name: changeInputName,
-                },
-              });
-            }}
-          >
-            Consultar
-          </button>
-        </div>
-      </Styles.ContainerNavigation>
+      <Navbar
+        changeInputName={changeInputName}
+        setChangeInputName={setChangeInputName}
+        selectCurrentSpecie={selectCurrentSpecie}
+        setSelectCurrentSpecie={setSelectCurrentSpecie}
+        newFiltered={useContextCharacters.newFiltered}
+      />
+      <Styles.ContainerPaginate style={{ padding: "20px 0", display: "flex" }}>
+        <Paginate
+          pageCount={pageCount}
+          setPageOffset={setPageOffset}
+          pageOffset={pageOffset}
+        />
+      </Styles.ContainerPaginate>
       <Styles.ContainerCardsCharacters>
-        {loading
-          ? "loading..."
-          : data?.characters?.results?.map((character) => (
-              <Styles.LinkCardCharacter
-                key={character.id}
-                onClick={() => {
-                  getCharacterInfo({
-                    variables: {
-                      identifier: character.id,
-                    },
-                  });
-                }}
-              >
-                <CardCharacters character={character} />
-              </Styles.LinkCardCharacter>
-            ))}
+        {useContextCharacters.loading ? (
+          <LoadingResponseApi />
+        ) : (
+          useContextCharacters.data?.characters?.results?.map((character) => (
+            <Styles.LinkCardCharacter
+              key={character.id}
+              onClick={() => {
+                history.push(`/character/${character.id}`);
+              }}
+            >
+              <CardCharacters character={character} />
+            </Styles.LinkCardCharacter>
+          ))
+        )}
       </Styles.ContainerCardsCharacters>
+      <Styles.ContainerPaginate>
+        <Paginate
+          pageCount={pageCount}
+          setPageOffset={setPageOffset}
+          pageOffset={pageOffset}
+        />
+      </Styles.ContainerPaginate>
     </Styles.WrapperContent>
   );
 };

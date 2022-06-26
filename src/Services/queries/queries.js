@@ -18,10 +18,11 @@ export const Filtered = (species = "", name = "") => gql`
 `;
 
 export const FilteredC = gql`
-  query Filter($species: String, $name: String) {
-    characters(filter: { species: $species, name: $name }) {
+  query Filter($page: Int, $species: String, $name: String) {
+    characters(page: $page, filter: { species: $species, name: $name }) {
       info {
         count
+        pages
       }
       results {
         id
