@@ -1,5 +1,6 @@
 import { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import SectionCharacterPage from "../../Components/SectionCharacterPage";
 import { CharacterContext } from "../../Providers/Character";
 
 const EpisodePage = () => {
@@ -14,9 +15,11 @@ const EpisodePage = () => {
     });
   }, []);
 
-  console.log(useContextCharacter);
-
-  return <div>episode page {id}</div>;
+  return (
+    <div>
+      <SectionCharacterPage id={id} />
+    </div>
+  );
 };
 
 export default EpisodePage;

@@ -13,15 +13,16 @@ const SectionHomePage = () => {
   const useContextCharacters = useContext(CharactersContext);
   const history = useHistory();
 
-  const token = JSON.parse(
+  const currentPagination = JSON.parse(
     sessionStorage.getItem("@RickAndMorty:currentPagination")
   );
-  console.log("token", token);
 
   const [changeInputName, setChangeInputName] = useState("");
   const [selectCurrentSpecie, setSelectCurrentSpecie] = useState("");
 
-  const [pageOffset, setPageOffset] = useState(token ? token : 1);
+  const [pageOffset, setPageOffset] = useState(
+    currentPagination ? currentPagination : 1
+  );
   const [pageCount, setPageCount] = useState();
 
   useEffect(() => {
@@ -36,7 +37,7 @@ const SectionHomePage = () => {
       "@RickAndMorty:currentPagination",
       JSON.stringify(pageOffset)
     );
-  }, [, pageOffset]);
+  }, [, pageOffset, selectCurrentSpecie]);
 
   useEffect(() => {
     setPageCount(useContextCharacters.data?.characters.info.pages);
@@ -63,14 +64,14 @@ const SectionHomePage = () => {
           <LoadingResponseApi />
         ) : (
           useContextCharacters.data?.characters?.results?.map((character) => (
-            <Styles.LinkCardCharacter
-              key={character.id}
-              onClick={() => {
-                history.push(`/character/${character.id}`);
-              }}
-            >
-              <CardCharacters character={character} />
-            </Styles.LinkCardCharacter>
+            // <Styles.LinkCardCharacter
+            //   key={character.id}
+            //   onClick={() => {
+            //     history.push(`/character/${character.id}`);
+            //   }}
+            // >
+            <CardCharacters key={character.id} character={character} />
+            // </Styles.LinkCardCharacter>
           ))
         )}
       </Styles.ContainerCardsCharacters>

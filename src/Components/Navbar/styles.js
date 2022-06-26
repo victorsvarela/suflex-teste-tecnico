@@ -8,10 +8,29 @@ export const WrapperNavigation = styled.nav`
 `;
 
 export const ContainerLogo = styled.div`
-  width: 80px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  > div {
+    width: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    > svg {
+      width: 25px;
+      fill: red;
+    }
+
+    > p {
+      font-size: 12px;
+    }
+  }
 `;
 export const Logo = styled.img`
-  width: 80px;
+  width: 120px;
 `;
 
 export const ContainerFilters = styled.div`

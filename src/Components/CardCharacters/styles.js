@@ -1,7 +1,14 @@
 import styled from "styled-components";
 
-export const ContainerCard = styled.div`
+export const WrapperCard = styled.div`
+  border: 1px solid black;
+  margin: 10px;
+  border-radius: 5px;
   position: relative;
+`;
+
+export const ContainerCard = styled.div`
+  /* position: relative; */
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -22,16 +29,21 @@ export const ContainerCard = styled.div`
   }
 `;
 
+export const LinkCardCharacter = styled.a`
+  text-decoration: none;
+  color: black;
+`;
+
 export const IconAlive = styled.div`
   position: absolute;
-  top: 3px;
-  right: 3px;
+  top: -11px;
+  right: -11px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 100%;
-  width: ${(props) => (props.status === "unknown" ? "45px" : "25px")};
-  height: ${(props) => (props.status === "unknown" ? "45px" : "25px")};
+  width: 45px;
+  height: 45px;
   background-color: ${(props) =>
     props.status === "Alive"
       ? "green"
@@ -44,7 +56,15 @@ export const IconAlive = styled.div`
   p {
     margin: 0;
     /* padding: 5px; */
-    font-size: 9px;
+    font-size: ${(props) => (props.status === "unknown" ? "9px" : "12px")};
     color: white !important;
   }
+`;
+export const FavoritedCharacterSvg = styled.svg`
+  width: 25px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  fill: ${(props) => (props.favoritedCharacter ? "red" : "transparent")};
+  stroke: ${(props) => (props.favoritedCharacter ? "none" : "black")};
 `;

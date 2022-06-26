@@ -1,5 +1,5 @@
 import { Route, Switch } from "react-router-dom";
-import EpisodePage from "../Pages/Episode";
+import EpisodePage from "../Pages/Character";
 import HomePage from "../Pages/Home";
 
 const Routes = () => {
@@ -11,6 +11,7 @@ const Routes = () => {
       <Route path="/character/:id">
         <EpisodePage />
       </Route>
+      <Route path="/my-favorites"></Route>
     </Switch>
   );
 };

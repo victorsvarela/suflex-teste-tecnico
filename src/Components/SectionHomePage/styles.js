@@ -4,11 +4,6 @@ export const WrapperContent = styled.section`
   display: flex;
   flex-direction: column;
   padding: 15px 25px;
-
-  a {
-    text-decoration: none;
-    color: black;
-  }
 `;
 
 export const ContainerPaginate = styled.div`
@@ -24,6 +19,8 @@ export const ContainerCardsCharacters = styled.div`
 `;
 export const LinkCardCharacter = styled.a`
   border: 1px solid black;
-  margin: 5px 5px;
+  margin: 10px;
   border-radius: 5px;
+  text-decoration: none;
+  color: black;
 `;
