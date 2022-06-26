@@ -13,10 +13,15 @@ const SectionHomePage = () => {
   const useContextCharacters = useContext(CharactersContext);
   const history = useHistory();
 
+  const token = JSON.parse(
+    sessionStorage.getItem("@RickAndMorty:currentPagination")
+  );
+  console.log("token", token);
+
   const [changeInputName, setChangeInputName] = useState("");
   const [selectCurrentSpecie, setSelectCurrentSpecie] = useState("");
 
-  const [pageOffset, setPageOffset] = useState(1);
+  const [pageOffset, setPageOffset] = useState(token ? token : 1);
   const [pageCount, setPageCount] = useState();
 
   useEffect(() => {
@@ -27,6 +32,10 @@ const SectionHomePage = () => {
         name: changeInputName,
       },
     });
+    sessionStorage.setItem(
+      "@RickAndMorty:currentPagination",
+      JSON.stringify(pageOffset)
+    );
   }, [, pageOffset]);
 
   useEffect(() => {
