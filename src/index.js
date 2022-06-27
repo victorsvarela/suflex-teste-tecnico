@@ -6,13 +6,16 @@ import reportWebVitals from "./reportWebVitals";
 import { ApolloProvider } from "@apollo/client";
 import { BrowserRouter } from "react-router-dom";
 import client from "./Services/api";
+import Providers from "./Providers";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ApolloProvider client={client}>
     <BrowserRouter>
       <React.StrictMode>
-        <App />
+        <Providers>
+          <App />
+        </Providers>
       </React.StrictMode>
     </BrowserRouter>
   </ApolloProvider>
