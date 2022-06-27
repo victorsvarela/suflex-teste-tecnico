@@ -12,8 +12,7 @@ const Navbar = ({
   setChangeInputName,
   selectCurrentSpecie,
   setSelectCurrentSpecie,
-  getCharacterInfo,
-  dataCharacterInfo,
+  pageConsult,
 }) => {
   const { newFiltered } = useContext(CharactersContext);
   const history = useHistory();
@@ -27,6 +26,7 @@ const Navbar = ({
         },
       });
   };
+
   return (
     <Styles.WrapperNavigation>
       <Styles.ContainerLogo>

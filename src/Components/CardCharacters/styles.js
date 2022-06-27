@@ -63,8 +63,8 @@ export const IconAlive = styled.div`
 export const FavoritedCharacterSvg = styled.svg`
   width: 25px;
   position: absolute;
-  top: 0;
-  left: 0;
+  bottom: 0;
+  right: 0;
   fill: ${(props) => (props.favoritedCharacter ? "red" : "transparent")};
   stroke: ${(props) => (props.favoritedCharacter ? "none" : "black")};
 `;

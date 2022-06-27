@@ -1,44 +1,50 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { FavoritesListContext } from "../../Providers/FavoritesList";
 import * as Styles from "./styles";
 
 const CardCharacters = ({ character }) => {
+  const useContextFavoritesList = useContext(FavoritesListContext);
+
+  console.log(character);
+  console.log(typeof character);
+
   const history = useHistory();
 
   const [favoritedCharacter, setFavoritedCharacter] = useState(false);
 
   const [favoriteCharactersList, setFavoriteCharactersList] = useState();
 
-  const handleClickFavoritedCharacter = (characterId, character) => {
-    const favorite = JSON.parse(
-      localStorage.getItem("@RickAndMorty:favoriteCharactersList")
-    );
-
-    setFavoritedCharacter(!favoritedCharacter);
-
-    if (favorite) {
-      return setFavoriteCharactersList([...favorite, character]);
-    }
-
-    return setFavoriteCharactersList([character]);
-  };
-
   useEffect(() => {
     setFavoriteCharactersList(
-      JSON.parse(localStorage.getItem("@RickAndMorty:favoriteCharactersList"))
+      JSON.parse(
+        localStorage.getItem("@RickAndMorty:favoriteCharactersList")
+      ) || []
     );
   }, []);
 
   useEffect(() => {
-    favoriteCharactersList &&
-      localStorage.setItem(
-        "@RickAndMorty:favoriteCharactersList",
-        JSON.stringify(favoriteCharactersList)
-      );
-    favoriteCharactersList?.map(
+    useContextFavoritesList?.favoriteCharactersList?.map(
       (item) => item.id === character.id && setFavoritedCharacter(true)
     );
-  }, [favoriteCharactersList]);
+  }, [useContextFavoritesList?.favoriteCharactersList]);
+
+  const handleClickFavoritedCharacter = (characterId, character) => {
+    const favorite = useContextFavoritesList.favoriteCharactersList;
+
+    if (favoritedCharacter) {
+      setFavoritedCharacter(!favoritedCharacter);
+
+      return useContextFavoritesList?.removeCharacterToFavoriteList(
+        favorite,
+        character
+      );
+    } else {
+      setFavoritedCharacter(!favoritedCharacter);
+
+      return useContextFavoritesList?.addCharacterToFavoriteList(character);
+    }
+  };
 
   return (
     <Styles.WrapperCard>

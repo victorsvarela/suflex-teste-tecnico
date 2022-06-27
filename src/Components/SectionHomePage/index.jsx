@@ -14,7 +14,7 @@ const SectionHomePage = () => {
   const history = useHistory();
 
   const currentPagination = JSON.parse(
-    sessionStorage.getItem("@RickAndMorty:currentPagination")
+    sessionStorage.getItem("@RickAndMorty:currentPagination") || 1
   );
 
   const [changeInputName, setChangeInputName] = useState("");
@@ -24,6 +24,8 @@ const SectionHomePage = () => {
     currentPagination ? currentPagination : 1
   );
   const [pageCount, setPageCount] = useState();
+
+  const [pageConsult, setPageConsult] = useState();
 
   useEffect(() => {
     useContextCharacters.newFiltered({
@@ -40,6 +42,28 @@ const SectionHomePage = () => {
   }, [, pageOffset, selectCurrentSpecie]);
 
   useEffect(() => {
+    setPageConsult(0);
+
+    if (selectCurrentSpecie !== "") {
+      useContextCharacters.newFiltered({
+        variables: {
+          page: pageConsult,
+          species: selectCurrentSpecie,
+          name: changeInputName,
+        },
+      });
+    } else {
+      setPageConsult(1);
+      setPageOffset(1);
+    }
+
+    sessionStorage.setItem(
+      "@RickAndMorty:currentPagination",
+      JSON.stringify(pageOffset)
+    );
+  }, [selectCurrentSpecie]);
+
+  useEffect(() => {
     setPageCount(useContextCharacters.data?.characters.info.pages);
   }, [useContextCharacters.data?.characters.info.pages]);
 
@@ -50,16 +74,9 @@ const SectionHomePage = () => {
         setChangeInputName={setChangeInputName}
         selectCurrentSpecie={selectCurrentSpecie}
         setSelectCurrentSpecie={setSelectCurrentSpecie}
-        newFiltered={useContextCharacters.newFiltered}
       />
-      <Styles.ContainerPaginate style={{ padding: "20px 0", display: "flex" }}>
-        <Paginate
-          pageCount={pageCount}
-          setPageOffset={setPageOffset}
-          pageOffset={pageOffset}
-        />
-      </Styles.ContainerPaginate>
-      <Styles.ContainerCardsCharacters>
+
+      <Styles.ContainerCardsCharacters style={{ marginTop: "30px" }}>
         {useContextCharacters.loading ? (
           <LoadingResponseApi />
         ) : (
@@ -80,6 +97,7 @@ const SectionHomePage = () => {
           pageCount={pageCount}
           setPageOffset={setPageOffset}
           pageOffset={pageOffset}
+          pageConsult={pageConsult}
         />
       </Styles.ContainerPaginate>
     </Styles.WrapperContent>

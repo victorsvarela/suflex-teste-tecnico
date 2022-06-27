@@ -8,13 +8,10 @@ import { ContainerLogo, Logo } from "../Navbar/styles";
 import { useContext, useEffect, useState } from "react";
 import { CharacterContext } from "../../Providers/Character";
 
-const SectionCharacterPage = ({ id }) => {
+const SectionCharacterPage = ({ id, character }) => {
   const history = useHistory();
   const useContextCharacter = useContext(CharacterContext);
   const [dataCharacter, setDataCharacter] = useState([]);
-
-  //   console.log(useContextCharacter.data.charactersByIds[0]);
-  //   console.log(dataCharacter);
 
   useEffect(() => {
     useContextCharacter.getCharacterInfo({
@@ -27,8 +24,6 @@ const SectionCharacterPage = ({ id }) => {
   useEffect(() => {
     setDataCharacter(useContextCharacter?.data?.charactersByIds[0]);
   }, [useContextCharacter?.data]);
-
-  console.log(dataCharacter);
 
   return (
     <Styles.WrapperContent>

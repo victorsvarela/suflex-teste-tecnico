@@ -1,11 +1,14 @@
 import { CharacterProvider } from "./Character";
 import { CharactersProvider } from "./Characters";
+import { FavoritesListProvider } from "./FavoritesList";
 
 const Providers = ({ children }) => {
   return (
     <>
       <CharactersProvider>
-        <CharacterProvider>{children}</CharacterProvider>
+        <CharacterProvider>
+          <FavoritesListProvider>{children}</FavoritesListProvider>
+        </CharacterProvider>
       </CharactersProvider>
     </>
   );
